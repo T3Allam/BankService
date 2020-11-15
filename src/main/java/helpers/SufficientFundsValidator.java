@@ -10,10 +10,4 @@ public class SufficientFundsValidator {
         }
     }
 
-    public static void validateCreditCardTransaction(IAccount account, double amountWithdraw) throws InsufficientFundsException {
-        if (amountWithdraw > account.getBalance()){
-            throw new InsufficientFundsException("Insufficient Funds");
-        }
-    }
-
 }
