@@ -2,7 +2,7 @@ package helpers;
 
 import java.util.Random;
 
-public class NumberGenerator {
+public final class NumberGenerator {
 
     private static int id;
     private static int accountNumber;
