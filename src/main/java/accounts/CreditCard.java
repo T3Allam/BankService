@@ -61,11 +61,9 @@ public class CreditCard implements IAccount {
                     balance += iterator.getNext().getDollarAmount() * Math.pow(rn, period);
                 } else {
                     balance += iterator.getNext().getDollarAmount();
-//                    System.out.println("Here " + balance);
                 }
             } else  { //we reduce debt for payments made by client
                 balance += iterator.getNext().getDollarAmount();
-//                System.out.println("DDDD " + balance);
             }
             iterator = iterator.getNext();
         }
