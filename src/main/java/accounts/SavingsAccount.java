@@ -1,7 +1,6 @@
 package accounts;
 
 import exceptions.InsufficientFundsException;
-import helpers.NumberGenerator;
 import helpers.SufficientFundsValidator;
 import interfaces.IAccount;
 import temporaltransactions.TemporalTransactionLinkedList;
@@ -14,20 +13,12 @@ import java.time.temporal.ChronoUnit;
 
 public class SavingsAccount implements IAccount {
     private double interestRate;
-    private double balance;
-    private int accountNumber;
     //Linked list data structure to hold all temporal transactions (account will grow with time based on interest interest)
     private TemporalTransactionLinkedList temporalTransactionLinkedList;
 
     public SavingsAccount(){
         this.temporalTransactionLinkedList = new TemporalTransactionLinkedList();
         this.interestRate = 0.02;
-        //Generating a unique account number that begins with 2 to flag that it's a Savings Account
-        this.accountNumber = Integer.parseInt(2 + String.valueOf(NumberGenerator.generateUniqueAccountNumber()));
-    }
-
-    public int getAccountNumber() {
-        return this.accountNumber;
     }
 
     //Deposting money - all deposits are time stamped so that interest could be calculated to find End_Investment = principal + interest
@@ -40,7 +31,7 @@ public class SavingsAccount implements IAccount {
     public double getBalance() {
         //daily interest rate
         double rn = 1+ interestRate/365;
-        int balance=0;
+        double balance = 0;
         TemporalTransactionNode iterator = temporalTransactionLinkedList.getHead();
         while (iterator.getNext().getDate() != null){
             //calculating number of days between time of transaction and today
@@ -60,8 +51,13 @@ public class SavingsAccount implements IAccount {
         try {
             SufficientFundsValidator.validateTransaction(this, amountWithdraw);
             TemporalTransactionNode newNode = new TemporalTransactionNode(LocalDate.now(), null, amount);
+            this.temporalTransactionLinkedList.append(newNode);
         } catch (InsufficientFundsException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public void printTransactions () {
+        this.temporalTransactionLinkedList.print();
     }
 }
